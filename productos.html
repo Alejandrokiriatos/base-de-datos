@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos del Mercado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+    <a href="cart.html" class="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="cart-count">0</span>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Productos del Mercado</h1>
+            <div class="buttons-container">
+                <a href="index.html" class="back-button"><i class="fas fa-home"></i> Volver al Inicio</a>
+                <a href="https://wa.me/5355841127?text=Hola,%20me%20gustaría%20consultar%20sobre%20un%20tema%20diferente%20a%20los%20productos%20mostrados%20en%20la%20página.%20¿Podríamos%20conversar%20al%20respecto?" class="consult-button" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Consulta Externa
+                </a>
+            </div>
+        </div>
+
+        <div class="productos" id="productos-container">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        // Load products from database
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products/category/Productos');
+                const products = await response.json();
+                
+                const container = document.getElementById('productos-container');
+                container.innerHTML = '';
+                
+                products.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.className = 'producto';
+                    productElement.innerHTML = `
+                        <div class="producto-nombre">${product.name}</div>
+                        <div class="producto-unidad">${product.unit}</div>
+                        <div class="producto-precio">$${product.price}</div>
+                        <div class="producto-descripcion">${product.description || ''}</div>
+                        <button onclick="addToCart('${product.name}', ${product.price}, '${product.unit}')" class="add-to-cart">
+                            <i class="fas fa-cart-plus"></i> Añadir al Carrito
+                        </button>
+                    `;
+                    container.appendChild(productElement);
+                });
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Update cart count on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            updateCartCount();
+        });
+    </script>
+    <script src="cart.js"></script>
+</body>
+</html>

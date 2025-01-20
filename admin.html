@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrativo - Mercado Don Luis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link href="styles.css" rel="stylesheet">
+  <link href="admin.css" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>Panel Administrativo</h1>
+      <a href="index.html" class="back-button"><i class="fas fa-home"></i> Volver al Inicio</a>
+      <button class="new-product-btn" onclick="showProductForm()">
+        <i class="fas fa-plus"></i> Nuevo Producto
+      </button>
+    </div>
+
+    <div class="admin-filters">
+      <select id="category-filter" onchange="filterProducts()">
+        <option value="">Todas las categorías</option>
+        <optgroup label="Ferretería">
+          <option value="Plomería">Plomería</option>
+          <option value="Herramientas">Herramientas</option>
+          <option value="Útiles">Útiles</option>
+        </optgroup>
+        <optgroup label="Mercado">
+          <option value="Productos">Productos</option>
+          <option value="Cárnicos">Cárnicos</option>
+          <option value="Aseo">Aseo</option>
+        </optgroup>
+      </select>
+      <input type="text" id="search-input" placeholder="Buscar productos..." oninput="filterProducts()">
+    </div>
+
+    <div class="products-table-container">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Unidad</th>
+            <th>Categoría</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="products-tbody">
+          <!-- Products will be loaded here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Product Form Modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Nuevo Producto</h2>
+      <form id="product-form">
+        <input type="hidden" id="product-id">
+        <div class="form-group">
+          <label for="product-name">Nombre *</label>
+          <input type="text" id="product-name" required>
+        </div>
+        <div class="form-group">
+          <label for="product-price">Precio *</label>
+          <input type="number" id="product-price" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="product-unit">Unidad *</label>
+          <input type="text" id="product-unit" required placeholder="Ej: 1 KG, 1 Unidad, 1 Litro">
+        </div>
+        <div class="form-group">
+          <label for="product-category">Categoría *</label>
+          <select id="product-category" required>
+            <optgroup label="Ferretería">
+              <option value="Plomería">Plomería</option>
+              <option value="Herramientas">Herramientas</option>
+              <option value="Útiles">Útiles</option>
+            </optgroup>
+            <optgroup label="Mercado">
+              <option value="Productos">Productos</option>
+              <option value="Cárnicos">Cárnicos</option>
+              <option value="Aseo">Aseo</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="product-description">Descripción</label>
+          <textarea id="product-description" placeholder="Descripción detallada del producto"></textarea>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="cancel-btn" onclick="hideProductForm()">Cancelar</button>
+          <button type="submit" class="save-btn">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
